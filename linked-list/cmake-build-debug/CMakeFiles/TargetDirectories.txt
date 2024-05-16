@@ -1,0 +1,3 @@
+/home/vlad/code-stuff/c-datastructures/linked-list/cmake-build-debug/CMakeFiles/linked_list.dir
+/home/vlad/code-stuff/c-datastructures/linked-list/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/vlad/code-stuff/c-datastructures/linked-list/cmake-build-debug/CMakeFiles/rebuild_cache.dir
