@@ -44,9 +44,15 @@ void append_node(list **list, int data){
 
 void push_node(list **list, int data){
     node_t *newNode = create_node(data);
-    newNode->next = (*list)->head;
-    (*list)->head = newNode;
 
+    if((*list)->head == NULL) {
+        (*list)->head = newNode;
+        (*list)->tail = newNode;
+    } else {
+        newNode->next = (*list)->head;
+        (*list)->head = newNode;
+    }
+    (*list)->length++;
 }
 
 void display_data(list **list){
@@ -63,42 +69,61 @@ void display_data(list **list){
     }
 }
 
-void delete_node(list **list, int data){
+node_t *delete_node(list **list, int data){
+    // Check if the list is empty
     if((*list)->head == NULL){
-        printf("The list is empty");
-        return;
+        printf("The list is empty\n");
+        return NULL;
     }
 
     node_t *tmp = (*list)->head;
+    node_t *prev = NULL;
 
-    while (tmp->next->data != data){
+
+    // Check if the node is the head
+    if(tmp->data == data){
+        (*list)->head = tmp->next;
+        // Check if the deleted node is the only node in the list
+        if((*list)->head == NULL){
+            (*list)->tail = NULL;
+            printf("You have deleted the only node");
+            (*list)->length--;
+            return tmp;
+        }
+    }
+
+    while (tmp != NULL && tmp->data != data ){
+        prev = tmp;
         tmp = tmp->next;
     }
 
-    if(tmp->next == NULL){
-        printf("The node does not exist");
+    if(tmp == NULL){
+        printf("The node has not been found\n");
+        return NULL;
     }
 
-    node_t *del = tmp->next;
-    tmp->next=tmp->next->next;
-    del->next = NULL;
+    prev->next = tmp->next;
+
+    if(prev->next == NULL){
+        (*list)->tail = prev;
+    }
+
+    tmp->next = NULL;
+    (*list)->length--;
+
+    return tmp;
 
 
 }
 
+
+
+
+
 int main() {
     list *myList = (list *)malloc(sizeof(list));
-    display_data(&myList);
-
-
-    for(int i = 0; i <= 20; i ++){
-        append_node(&myList, i);
-    }
-
-    display_data(&myList);
-    printf("\n");
-    delete_node(&myList, 19);
-    display_data(&myList);
+    push_node(&myList, 20);
+    delete_node(&myList, 20);
 
     return 0;
 }
