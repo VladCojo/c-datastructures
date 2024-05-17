@@ -34,16 +34,12 @@ void append_node(list **list, int data){
 
     if((*list)->head == NULL){
         (*list)->head = newNode;
-        return;
+        (*list)->tail = newNode;
+    }else {
+        (*list)->tail->next = newNode;
+        (*list)->tail = newNode;
     }
-
-    node_t *tmp = (*list)->head;
-
-    while (tmp->next) {
-        tmp = tmp->next;
-    }
-    tmp->next = newNode;
-
+    (*list)->length++;
 }
 
 void push_node(list **list, int data){
