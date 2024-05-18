@@ -36,9 +36,26 @@ int main() {
     delete_node(&list, 23);
     display(&list);
     printf("Length: %d\n", list->length);
-
-
+    pop_first(&list);
+    display(&list);
     return 0;
+}
+
+node_t *pop_first(list_t **list){
+    if((*list)->head == NULL){
+        printf("The list is empty;");
+        return NULL;
+    }
+    node_t *tmp = (*list)->head;
+
+    if((*list)->head->next == NULL){
+        (*list)->head = NULL;
+        (*list)->tail = NULL;
+        return tmp;
+    }
+    (*list)->head = (*list)->head->next;
+    (*list)->head->prev = NULL;
+    return tmp;
 }
 
 node_t *delete_node(list_t **list, int data){
