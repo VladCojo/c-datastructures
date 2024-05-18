@@ -19,6 +19,8 @@ void display_data(list **list);
 void append_node(list **list, int data);
 void push_node(list **list, int data);
 node_t *delete_node(list **list, int data);
+node_t *pop_first(list **list);
+node_t *pop_last(list **list);
 
 node_t *merge(node_t *a, node_t *b);
 void mergeSort(list **lst);
@@ -48,8 +50,30 @@ int main() {
     display_data(&myList);
     printf("\n");
 
+    node_t *deletedNode = pop_first(&myList);
+
+    printf("first node: %d\n", deletedNode->data);
+    display_data(&myList);
+
     return 0;
 }
+
+
+node_t *pop_first(list **list){
+    if((*list)->head == NULL){
+        printf("The list is empty");
+        return NULL;
+    }
+
+    node_t *tmp = (*list)->head;
+
+
+    (*list)->head = (*list)->head->next;
+    return tmp;
+
+}
+
+
 
 node_t *merge(node_t *a, node_t *b){
     node_t *result = NULL;
