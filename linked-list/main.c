@@ -19,42 +19,110 @@ void display_data(list **list);
 void append_node(list **list, int data);
 void push_node(list **list, int data);
 node_t *delete_node(list **list, int data);
-void merge(list **list, int l, int r, int m);
-void mergeSort(list **list, int l, int r);
-void splitList(list **list, node_t **frontRef, node_t **backRef);
-// TODO: Create insert node function
+
+node_t *merge(node_t *a, node_t *b);
+void mergeSort(list **lst);
+void splitList(node_t *source, node_t **frontRef, node_t **backRef);
 
 
 
 int main() {
-    list *myList = (list *)malloc(sizeof(list));
+    list* myList = (list*)malloc(sizeof(list));
+    myList->length = 0;
+    myList->head = NULL;
+    myList->tail = NULL;
+
     push_node(&myList, 5);
     append_node(&myList, 3);
+    append_node(&myList, 20);
+    append_node(&myList, 15);
+    append_node(&myList, 10);
+
+    printf("Unsorted List:\n");
     display_data(&myList);
+    printf("\n");
+
+    mergeSort(&myList);
+
+    printf("Sorted List:\n");
+    display_data(&myList);
+    printf("\n");
 
     return 0;
 }
 
-void splitList(list **list, node_t **frontRef, node_t **backRef){
-    node_t *fast;
-    node_t *slow;
-    slow = (*list)->head;
-    fast = (*list)->head->next;
+node_t *merge(node_t *a, node_t *b){
+    node_t *result = NULL;
 
-    while (fast->next != NULL){
-        fast = fast->next;
-        if(fast->next != NULL){
-            fast = fast->next;
-            slow = slow->next;
-        }
+    if(a == NULL){
+        return b;
+    } else if(b == NULL) {
+        return a;
     }
 
-    *frontRef = (*list)->head;
+    if(a->data <= b->data){
+        result = a;
+        result->next = merge(a->next, b);
+    } else {
+        result = b;
+        result->next = merge(a, b->next);
+    }
+    return result;
+}
+
+void mergeSort(list **lst){
+    node_t *head = (*lst)->head;
+    node_t *a;
+    node_t *b;
+
+    if((head == NULL) || (head->next == NULL)){
+        return;
+    }
+
+    splitList(head, &a, &b);
+    list *leftList = (list*) malloc(sizeof (list));
+    leftList->head = a;
+    leftList->length = 0;
+    leftList->tail = NULL;
+
+    list *rightList=(list*) malloc(sizeof (list));
+    rightList->head = b;
+    rightList->length = 0;
+    leftList->tail = NULL;
+
+    mergeSort(&leftList);
+    mergeSort(&rightList);
+
+    (*lst)->head = merge(leftList->head, rightList->head);
+
+    // Updating the tail
+    node_t *current = (*lst)->head;
+    while (current->next != NULL){
+        current = current->next;
+    }
+    (*lst)->tail = current;
+
+
+
+}
+
+
+void splitList(node_t *source, node_t **frontRef, node_t **backRef){
+    node_t *fast;
+    node_t *slow;
+    slow = source;
+    fast = source->next;
+
+    while (fast->next != NULL && fast->next->next != NULL){
+       fast = fast->next->next;
+       slow = slow->next;
+    }
+
+    *frontRef = source;
     *backRef = slow->next;
 
     slow->next = NULL;
 }
-
 
 node_t *create_node(int data){
     node_t *newNode = (node_t*) malloc(sizeof (node_t));
