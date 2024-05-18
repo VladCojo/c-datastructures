@@ -19,8 +19,10 @@ void push(list_t **list, int data);
 void append(list_t **list, int data);
 void display(list_t **list);
 node_t *delete_node(list_t **list, int data);
+node_t *pop_first(list_t **list);
+node_t *pop_last(list_t **list);
 
-
+// TODO: termina alea de mai sus
 
 int main() {
     list_t *list = (list_t *) malloc(sizeof (list_t));
