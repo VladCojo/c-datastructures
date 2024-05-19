@@ -44,6 +44,19 @@ hashtable *create_hashtable(int size){
     return newHashtable;
 }
 
+void printTable(hashtable *table){
+    printf("Hash table: \n");
+    for(int i = 0; i < table->size; i ++){
+        if(table->items[i]){
+            printf("index: %d, key: %s, value: %s\n", i, table->items[i]->key, table->items[i]->value);
+        }
+    }
+}
+void insert(hashtable* table, char* key, char* value){
+    item *newItem = create_item(key, value);
+    int index = hash_function(key);
+    
+}
 int main() {
     char *str = "vali";
     printf("hash value of '%s': %lu", str, hash_function(str));
