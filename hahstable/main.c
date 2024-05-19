@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "stdlib.h"
+#include "string.h"
 // size of hash table
 #define CAPACITY 5000
 
@@ -21,6 +22,26 @@ unsigned long hash_function(char *str){
         i += str[j];
     }
     return i % CAPACITY;
+}
+
+item *create_item(char *key, char *val){
+    item *newItem = (item*) malloc(sizeof (item));
+    newItem->key = (char*) malloc(strlen(key)+1);
+    newItem->value = (char*) malloc(strlen(val)+1);
+    strcpy(newItem->value, val);
+    strcpy(newItem->key, key);
+    return newItem;
+}
+
+hashtable *create_hashtable(int size){
+    hashtable *newHashtable = (hashtable*) malloc(sizeof (hashtable));
+    newHashtable->size = size;
+    newHashtable->count = 0;
+    newHashtable->items = (item**) calloc(newHashtable->size, sizeof(item*));
+    for(int i = 0; i < newHashtable->size; i++){
+        newHashtable->items[i]= NULL;
+    }
+    return newHashtable;
 }
 
 int main() {
