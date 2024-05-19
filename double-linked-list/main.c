@@ -22,7 +22,12 @@ node_t *delete_node(list_t **list, int data);
 node_t *pop_first(list_t **list);
 node_t *pop_last(list_t **list);
 
-// TODO: termina alea de mai sus
+void mergeSort(list_t **list);
+node_t *merge(node_t* a, node_t *b);
+void splitList(node_t *source, node_t **frontRef, node_t **backRef);
+
+
+
 
 int main() {
     list_t *list = (list_t *) malloc(sizeof (list_t));
@@ -38,7 +43,7 @@ int main() {
     printf("Length: %d\n", list->length);
     node_t *deleted = pop_first(&list);
     printf("the deleted node is %d\n", deleted->data);
-
+    pop_last(&list);
     display(&list);
     return 0;
 }
