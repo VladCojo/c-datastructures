@@ -38,14 +38,22 @@ int main() {
     push(&list, 23);
     display(&list);
     printf("Length: %d\n", list->length);
-    delete_node(&list, 23);
-    display(&list);
-    printf("Length: %d\n", list->length);
-    node_t *deleted = pop_first(&list);
-    printf("the deleted node is %d\n", deleted->data);
-    pop_last(&list);
+    mergeSort(&list);
     display(&list);
     return 0;
+}
+void splitList(node_t *source, node_t **frontRef, node_t **backRef){
+    node_t *slow = source;
+    node_t *fast = source->next;
+
+    while(fast->next != NULL && fast->next->next != NULL){
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    (*frontRef) = source;
+    (*backRef) = slow->next;
+    slow->next = NULL;
+    (*backRef)->prev = NULL;
 }
 node_t *merge(node_t *a, node_t *b){
     if(a == NULL){
@@ -54,7 +62,17 @@ node_t *merge(node_t *a, node_t *b){
         return a;
     }
 
-
+    if(a->data <= b->data){
+        a->next = merge(a->next, b);
+        if(a->next != NULL) a->next->prev = a;
+        a->prev = NULL;
+        return a;
+    } else {
+        b->next = merge(a, b->next);
+        if(b->next != NULL) b->next->prev = b;
+        b->prev = NULL;
+        return b;
+    }
 }
 void mergeSort(list_t **list){
     node_t *head = (*list)->head;
@@ -73,7 +91,7 @@ void mergeSort(list_t **list){
     leftList->length = 0;
 
     list_t *rightList = (list_t *) malloc(sizeof (list_t));
-    rightList->head = a;
+    rightList->head = b;
     rightList->tail = NULL;
     rightList->length = 0;
 
@@ -82,6 +100,12 @@ void mergeSort(list_t **list){
 
     (*list)->head = merge(leftList->head, rightList->head);
     // TODO: Update tail
+    node_t *current = (*list)->head;
+    while (current->next != NULL){
+        current = current->next;
+    }
+    (*list)->tail = current;
+
 }
 node_t *pop_last(list_t **list){
     if((*list)->tail == NULL){
