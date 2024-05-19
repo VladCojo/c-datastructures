@@ -47,7 +47,42 @@ int main() {
     display(&list);
     return 0;
 }
+node_t *merge(node_t *a, node_t *b){
+    if(a == NULL){
+        return b;
+    } else if (b == NULL){
+        return a;
+    }
 
+
+}
+void mergeSort(list_t **list){
+    node_t *head = (*list)->head;
+    node_t *a;
+    node_t *b;
+
+
+    if((head == NULL) || (head->next == NULL)){
+        return;
+    }
+
+    splitList(head, &a, &b);
+    list_t *leftList = (list_t *) malloc(sizeof (list_t));
+    leftList->head = a;
+    leftList->tail = NULL;
+    leftList->length = 0;
+
+    list_t *rightList = (list_t *) malloc(sizeof (list_t));
+    rightList->head = a;
+    rightList->tail = NULL;
+    rightList->length = 0;
+
+    mergeSort(&leftList);
+    mergeSort(&rightList);
+
+    (*list)->head = merge(leftList->head, rightList->head);
+    // TODO: Update tail
+}
 node_t *pop_last(list_t **list){
     if((*list)->tail == NULL){
         printf("The list is empty");
