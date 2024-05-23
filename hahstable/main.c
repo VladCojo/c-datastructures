@@ -1,64 +1,37 @@
-#include <stdio.h>
+
+#include "stdint.h"
+#include "stdio.h"
+#include "time.h"
 #include "stdlib.h"
-#include "string.h"
-// size of hash table
-#define CAPACITY 5000
 
-typedef struct item{
-    char* key;
-    char* value;
-}item;
+#define M_VAL 4
+#define X_VAL 1000000
 
-typedef struct hashtable{
-    item **items;
-    int size;
-    int count;
-}hashtable;
+#define hash_a (uint32_t) 2654435769
+#define hash_w 32
+#define hash_m 3
 
-unsigned long hash_function(char *str){
-    unsigned long i = 0;
+uint32_t hashf_krlose(char *str) {
+    uint32_t hash = 0;
+    char c;
+    while((c=str++)) {
+        printf("%c", c);
+        hash+=c;
+    } 
+    return hash;
+}
 
-    for(int j = 0; str[j]; j++){
-        i += str[j];
+
+int main(){
+    char* input[] = { "IJK", "HJL", "GJM", "FJN" };
+    uint32_t i;
+    printf("\n");
+    hashf_krlose("buna");
+    printf("\n");
+    for(i = 0; i < 4; i++) {
+        printf("%d\n", hashf_krlose(input[i]));
     }
-    return i % CAPACITY;
-}
 
-item *create_item(char *key, char *val){
-    item *newItem = (item*) malloc(sizeof (item));
-    newItem->key = (char*) malloc(strlen(key)+1);
-    newItem->value = (char*) malloc(strlen(val)+1);
-    strcpy(newItem->value, val);
-    strcpy(newItem->key, key);
-    return newItem;
-}
-
-hashtable *create_hashtable(int size){
-    hashtable *newHashtable = (hashtable*) malloc(sizeof (hashtable));
-    newHashtable->size = size;
-    newHashtable->count = 0;
-    newHashtable->items = (item**) calloc(newHashtable->size, sizeof(item*));
-    for(int i = 0; i < newHashtable->size; i++){
-        newHashtable->items[i]= NULL;
-    }
-    return newHashtable;
-}
-
-void printTable(hashtable *table){
-    printf("Hash table: \n");
-    for(int i = 0; i < table->size; i ++){
-        if(table->items[i]){
-            printf("index: %d, key: %s, value: %s\n", i, table->items[i]->key, table->items[i]->value);
-        }
-    }
-}
-void insert(hashtable* table, char* key, char* value){
-    item *newItem = create_item(key, value);
-    int index = hash_function(key);
-    
-}
-int main() {
-    char *str = "vali";
-    printf("hash value of '%s': %lu", str, hash_function(str));
     return 0;
+
 }
