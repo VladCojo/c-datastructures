@@ -4,12 +4,17 @@
 #include "time.h"
 #include "stdlib.h"
 
-#define CAPACITY 50000
+#define M_VAL 4
+#define X_VAL 1000000
+
+#define hash_a (uint32_t) 2654435769
+#define hash_w 32
+#define hash_m 3
 
 uint32_t hashf_krlose(char *str) {
     uint32_t hash = 0;
     char c;
-    while((c=str++)) {
+    while((c=*str++)) {
         printf("%c", c);
         hash+=c;
     } 
