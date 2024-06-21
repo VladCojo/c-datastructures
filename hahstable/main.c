@@ -3,7 +3,7 @@
 #include "stdio.h"
 #include "time.h"
 #include "stdlib.h"
-
+// Comentari utest
 #define M_VAL 4
 #define X_VAL 1000000
 
