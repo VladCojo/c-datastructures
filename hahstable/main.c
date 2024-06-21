@@ -6,7 +6,7 @@
 // Comentari utest
 #define M_VAL 4
 #define X_VAL 1000000
-
+// alt test
 #define hash_a (uint32_t) 2654435769
 #define hash_w 32
 #define hash_m 3
